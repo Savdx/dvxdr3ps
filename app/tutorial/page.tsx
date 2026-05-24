@@ -1,6 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import {
+  useRef,
+  useState,
+  type DetailedHTMLProps,
+  type HTMLAttributes,
+} from "react";
 import Script from "next/script";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/components/LangContext";
@@ -14,6 +19,17 @@ import {
 } from "@/components/Icons";
 
 const WISTIA_ID = "xvjlkusjlu35po5";
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "wistia-player": DetailedHTMLProps<
+        HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & { "media-id"?: string; aspect?: string };
+    }
+  }
+}
 
 export default function TutorialPage() {
   const { t } = useLang();
@@ -78,8 +94,10 @@ export default function TutorialPage() {
       </header>
 
       {/* Video */}
+      <Script src="https://fast.wistia.com/player.js" strategy="afterInteractive" />
       <Script
-        src="https://fast.wistia.com/assets/external/E-v1.js"
+        src={`https://fast.wistia.com/embed/${WISTIA_ID}.js`}
+        type="module"
         strategy="afterInteractive"
       />
       <div
@@ -87,12 +105,11 @@ export default function TutorialPage() {
         className="relative mb-14 overflow-hidden rounded-[24px] border border-border bg-black"
         style={{ aspectRatio: "16 / 9" }}
       >
-        <div
-          className={`wistia_embed wistia_async_${WISTIA_ID} absolute inset-0`}
-          style={{ width: "100%", height: "100%" }}
-        >
-          &nbsp;
-        </div>
+        <wistia-player
+          media-id={WISTIA_ID}
+          aspect="16/9"
+          style={{ width: "100%", height: "100%", display: "block" }}
+        />
       </div>
       <p className="mb-14 text-center text-[13px] text-t4">{t.tuto.videoLabel}</p>
 
