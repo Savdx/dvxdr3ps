@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/components/LangContext";
 import { AFFILIATE_URL } from "@/lib/constants";
@@ -12,11 +12,48 @@ import {
   UserIcon,
 } from "@/components/Icons";
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "wistia-player": React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement> & {
+          "media-id": string;
+          aspect: string;
+        },
+        HTMLElement
+      >;
+    }
+  }
+}
+
 export default function TutorialPage() {
   const { t } = useLang();
   const router = useRouter();
   const videoRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const s1 = document.createElement("script");
+    s1.src = "https://fast.wistia.com/player.js";
+    s1.async = true;
+    document.head.appendChild(s1);
+
+    const s2 = document.createElement("script");
+    s2.src = "https://fast.wistia.com/embed/efaosvl2iq.js";
+    s2.async = true;
+    s2.type = "module";
+    document.head.appendChild(s2);
+
+    const style = document.createElement("style");
+    style.innerHTML = `wistia-player[media-id='efaosvl2iq']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/efaosvl2iq/swatch'); display: block; filter: blur(5px); padding-top:65.0%; }`;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(s1);
+      document.head.removeChild(s2);
+      document.head.removeChild(style);
+    };
+  }, []);
 
   const steps = t.tuto.steps.map((s, i) => {
     const meta = [
@@ -75,17 +112,11 @@ export default function TutorialPage() {
       </header>
 
       {/* Video */}
-      <div
-        ref={videoRef}
-        className="mb-14"
-        style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: "16px" }}
-      >
-        <iframe
-          src="https://fast.wistia.net/embed/iframe/xvjlkusjlu35po5?autoPlay=false"
-          allowFullScreen
-          allow="autoplay; fullscreen"
-          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-          title="DvxdR3ps Tutorial"
+      <div ref={videoRef} className="mb-14">
+        <wistia-player
+          media-id="efaosvl2iq"
+          aspect="1.5384615384615385"
+          style={{ width: "100%" }}
         />
       </div>
       <p className="mb-14 text-center text-[13px] text-t4">{t.tuto.videoLabel}</p>
