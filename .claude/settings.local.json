@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/popusoidavid/Documents/R3ps/ && ls -la /Users/popusoidavid/Downloads/dvxdr3ps_1.jsx 2>&1 | head -20)"
+    ]
+  }
+}
