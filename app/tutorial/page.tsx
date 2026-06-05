@@ -39,13 +39,13 @@ export default function TutorialPage() {
     document.head.appendChild(s1);
 
     const s2 = document.createElement("script");
-    s2.src = "https://fast.wistia.com/embed/efaosvl2iq.js";
+    s2.src = "https://fast.wistia.com/embed/dxqy8rfs8h.js";
     s2.async = true;
     s2.type = "module";
     document.head.appendChild(s2);
 
     const style = document.createElement("style");
-    style.innerHTML = `wistia-player[media-id='efaosvl2iq']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/efaosvl2iq/swatch'); display: block; filter: blur(5px); padding-top:65.0%; }`;
+    style.innerHTML = `wistia-player[media-id='dxqy8rfs8h']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/dxqy8rfs8h/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }`;
     document.head.appendChild(style);
 
     return () => {
@@ -114,8 +114,8 @@ export default function TutorialPage() {
       {/* Video */}
       <div ref={videoRef} className="mb-14">
         <wistia-player
-          media-id="efaosvl2iq"
-          aspect="1.5384615384615385"
+          media-id="dxqy8rfs8h"
+          aspect="1.7777777777777777"
           style={{ width: "100%" }}
         />
       </div>
